@@ -9,7 +9,7 @@ module.exports = {
         // 配置静态资源目录
         contentBase: path.join(__dirname,'public'),
         // 设置开发服务器端口
-        port:8240,
+        port:8848,
     },
     // 配置webpack相关
     configureWebpack:{
@@ -21,5 +21,12 @@ module.exports = {
                 '@c':path.resolve(__dirname,"src/components")
             }
         }
-    }
+    },
+    // proxy:{
+    //     // 配置代理
+    //     "/bingjs":{
+    //         // 凡是以/x开头，进行代理
+    //         target:"http://bingjs.com:83",
+    //     }
+    // }
 }
