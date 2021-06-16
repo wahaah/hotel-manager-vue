@@ -10,7 +10,18 @@ import 'nprogress/nprogress.css'
 const instance = axios.create({
     baseURL: 'http://bingjs.com:83',  // 请求的接口地址根路径
     timeout: 1000, // 超时时间 
+    // headers: {'token': sessionStorage.getItem("token")}  //但是直接放在这是错误的，因为第一次登录时发送请求是没有token的
+
 });
+
+// 虽然在axios官方文档中有个全局设置请求头，等价于上面 仍然会在第一次执行（页面加载就会运行）
+// instance.defaults.headers.post['token'] = sessionStorage.getItem('token');
+
+// 写在方法中就可在适当的时间去调用
+let getToken = function(){  // 把他给vue 放到plugin
+  instance.defaults.headers.common['token'] = sessionStorage.getItem('token');
+  alert(sessionStorage.getItem('token'))
+}
 
 
 
@@ -56,5 +67,6 @@ let post = async function(url,params){
 
 export {
     get,
-    post
+    post,
+    getToken
 }

@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-
+import {strToMd5} from '../utils/md5'
 export default {
   data() {
       var validateAccount = (rule, value, callback) => {
@@ -31,9 +31,6 @@ export default {
         if (value === '') {
           callback(new Error('请输入密码'));
         } else {
-          // if (this.ruleForm.checkPass !== '') {
-          //   this.$refs.ruleForm.validateField('loginId');
-          // }
           callback();
         }
       };
@@ -57,15 +54,28 @@ export default {
     },
     methods: {
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
+        this.$refs[formName].validate(async (valid) => {
           if (valid) {
-            // alert('submit!');
-            this.$get('/Admin/Login',this.ruleForm)
+            this.ruleForm.loginPwd = strToMd5(this.ruleForm.loginPwd)
+            let {message,token,success}  = await this.$get('/Admin/Login',this.ruleForm)
+            console.log(token);
+            if(success){
+              // 登陆成功后 将token身份验证信息存储起来
+              // 通常将token存储在浏览器的缓存机制  webstorage  cookie
+              // cookie 太小  sessionstorage仅在绘画中有效，随浏览器关闭而删除  localstorage会一直存在，除非手动删除
+              sessionStorage.setItem('token',token)
+              this.$getToken();  // 将token信息放到请求头中  
+              let res = await this.$get('/Room/List',{id:123})
+              console.log(res)
+            }
+            // 登陆成功后每次请求数据需要将token带过去
+            // 一般将token以请求头的方式传到后台 在request.js中  headers: {'X-Custom-Header': 'foobar'}
+          
           } else {
             console.log('error submit!!');
             return false;
           }
-        });
+        })
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
