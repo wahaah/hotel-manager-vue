@@ -14,6 +14,10 @@ const routes = [
   { 
     path:'/reg',
     component:()=>import('@v/Register.vue')
+  },
+  { 
+    path:'/Layout',
+    component:()=>import('@v/Layout.vue')
   }
   
 ]

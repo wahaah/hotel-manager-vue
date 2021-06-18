@@ -20,7 +20,6 @@ const instance = axios.create({
 // 写在方法中就可在适当的时间去调用
 let getToken = function(){  // 把他给vue 放到plugin
   instance.defaults.headers.common['token'] = sessionStorage.getItem('token');
-  alert(sessionStorage.getItem('token'))
 }
 
 

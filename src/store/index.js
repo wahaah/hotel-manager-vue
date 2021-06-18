@@ -3,6 +3,9 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+// 导入颜色主题模块
+import theme from './module/theme'
+
 export default new Vuex.Store({
   state: {
   },
@@ -11,5 +14,6 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
+    theme
   }
 })

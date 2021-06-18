@@ -7,7 +7,7 @@
 </template>
 
 <style lang="scss">
-// 先写常用的样式 上面不能加scoped 要给其他组件也用
+/*  先写常用的样式 上面不能加scoped 要给其他组件也用 */
 
 *{
   margin: 0;

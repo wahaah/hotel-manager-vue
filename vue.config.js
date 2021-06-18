@@ -21,7 +21,7 @@ module.exports = {
                 '@c':path.resolve(__dirname,"src/components")
             }
         }
-    },
+    }
     // proxy:{
     //     // 配置代理
     //     "/bingjs":{
