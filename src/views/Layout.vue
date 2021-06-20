@@ -1,7 +1,7 @@
 <template>
   <div id class="layout">
     <div class="con">
-      <div class="left" :style="{backgroundColor:themeColor,width:isCollapse?'200px':'auto'}">
+      <div class="left" :style="{backgroundColor:themeColor,width:!isCollapse?'200px':'auto'}">
         <div class="logo">logo</div>
         <el-menu
           default-active="2"
@@ -21,19 +21,6 @@
             </template>
             <el-menu-item index="1-1">角色管理</el-menu-item>
             <el-menu-item index="1-2">账号管理</el-menu-item>
-             <!-- <el-menu-item-group>
-              <template slot="title">分组一</template>
-              <el-menu-item index="1-1">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
-            </el-menu-item-group>
-           
-            <el-menu-item-group title="分组2">
-              <el-menu-item index="1-3">选项3</el-menu-item>
-            </el-menu-item-group>
-            <el-submenu index="1-4">
-              <template slot="title">选项4</template>
-              <el-menu-item index="1-4-1">选项1</el-menu-item>
-            </el-submenu> -->
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
@@ -61,8 +48,9 @@
       </div>
       <div class="right">
         <div class="nav"  :style="{backgroundColor:themeColor}">
-          <div class="icon" @click="isCollapse=!isCollapse">
-            <i class="isCollapse?el-icon-s-fold:el-icon-s-unfold"></i>
+          <div class="icon" @click="isCollapse = !isCollapse">
+            <!-- <i class="el-icon-s-fold"></i> -->
+            <i :class="isCollapse?'el-icon-s-unfold':'el-icon-s-fold'"></i>
           </div>
           <div class="menu">
             <!-- <el-menu
@@ -95,7 +83,16 @@
                 <el-menu-item index="2-2">选项2</el-menu-item>
                 <el-menu-item index="2-3">选项3</el-menu-item>
               </el-submenu>
-              <el-submenu  index="3">
+              <el-submenu index="3">
+                <template slot="title">
+                  <i class="el-icon-message"></i>
+                  Email
+                </template>
+                <el-menu-item index="3-1">选项1</el-menu-item>
+                <el-menu-item index="3-2">选项2</el-menu-item>
+                <el-menu-item index="3-3">选项3</el-menu-item>
+              </el-submenu>
+              <el-submenu  index="4">
                 <template slot="title">
                   <i class="el-icon-magic-stick"></i>
                   Theme
@@ -104,9 +101,14 @@
                 <!-- <el-menu-item index="3-2">粉色主题</el-menu-item>
                 <el-menu-item index="3-3">黑色主题</el-menu-item> -->
               </el-submenu >
-              <el-menu-item index="4">
-                <i class="el-icon-user"></i>管理员
-              </el-menu-item>
+              <el-submenu index="5">
+                <template slot="title">
+                  <i class="el-icon-user"></i>管理员
+                </template>
+                <el-menu-item index="5-1">个人中心</el-menu-item>
+                <el-menu-item index="5-2">修改密码</el-menu-item>
+                <el-menu-item index="5-3" @click="quit">退出登录</el-menu-item>
+              </el-submenu>
             </el-menu>
           </div>
         </div>
@@ -125,7 +127,7 @@ export default {
       isCollapse: false,
       activeIndex: "1",
       activeIndex2: "1",
-      themeColor:"rgb(51, 74, 95)"
+      themeColor:localStorage.getItem("themeColor")||"rgb(51, 74, 95)"
     };
   },
   computed:{
@@ -143,7 +145,14 @@ export default {
       //   console.log(key, keyPath);
       // }
       changeColor(newColor) {
+        localStorage.setItem("themeColor",newColor);
         this.themeColor = newColor
+      },
+      // 退出登录
+      quit(){
+        localStorage.clear();
+        sessionStorage.clear();
+        this.$router.push("/login");
       }
   }
 };

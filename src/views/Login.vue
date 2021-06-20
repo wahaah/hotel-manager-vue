@@ -67,23 +67,34 @@ export default {
       submitForm(formName) {
         this.$refs[formName].validate(async (valid) => {
           if (valid) {
-            this.ruleForm.loginPwd = strToMd5(this.ruleForm.loginPwd)
-            let {token,success}  = await this.$get('/Admin/Login',this.ruleForm)
-            // console.log(token);
-            if(success){
+              this.ruleForm.loginPwd = strToMd5(this.ruleForm.loginPwd)
+              let {token,success,message}  = await this.$get('/Admin/Login',this.ruleForm)
+              // console.log(token);
+              // 自动登录---
+              localStorage.setItem("loginId",this.ruleForm.loginId)
+              if (success) {
+                // 记住我为true 将密码存起来
+              if(this.ruleForm.checkMe){
+                localStorage.setItem("loginPwd",this.ruleForm.loginPwd)
+              }
+              // 自动登录---
+
               // 登陆成功后 将token身份验证信息存储起来
               // 通常将token存储在浏览器的缓存机制  webstorage  cookie
               // cookie 太小  sessionstorage仅在绘画中有效，随浏览器关闭而删除  localstorage会一直存在，除非手动删除
               sessionStorage.setItem('token',token)
-              this.$getToken();  // 将token信息放到请求头中  
+              this.$getToken();  // 将token信息放到请求头中
+               // 登陆成功后每次请求数据需要将token带过去
+               // 一般将token以请求头的方式传到后台 在request.js中  headers: {'X-Custom-Header': 'foobar'}
+            
 
               let res = await this.$get('/Room/List',{id:123})
               console.log(res)
-              this.$router.push('/Layout')
+              this.$router.push('/layout')
+            }else {
+               this.$msg_e(message,1000,true)
             }
-            // 登陆成功后每次请求数据需要将token带过去
-            // 一般将token以请求头的方式传到后台 在request.js中  headers: {'X-Custom-Header': 'foobar'}
-          
+           
           } else {
             console.log('error submit!!');
             return false;

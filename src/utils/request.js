@@ -14,15 +14,6 @@ const instance = axios.create({
 
 });
 
-// 虽然在axios官方文档中有个全局设置请求头，等价于上面 仍然会在第一次执行（页面加载就会运行）
-// instance.defaults.headers.post['token'] = sessionStorage.getItem('token');
-
-// 写在方法中就可在适当的时间去调用
-let getToken = function(){  // 把他给vue 放到plugin
-  instance.defaults.headers.common['token'] = sessionStorage.getItem('token');
-}
-
-
 
 
 // 添加请求拦截器
@@ -64,8 +55,22 @@ let post = async function(url,params){
     return data
 }
 
+
+// 虽然在axios官方文档中有个全局设置请求头，等价于上面 仍然会在第一次执行（页面加载就会运行）
+// instance.defaults.headers.post['token'] = sessionStorage.getItem('token');
+
+// 写在方法中就可在适当的时间去调用
+let getToken = function(){  // 把他给vue 放到plugin
+  instance.defaults.headers.common['token'] = sessionStorage.getItem('token');
+}
+
+
+
 export {
     get,
     post,
-    getToken
+    getToken,
+    // $msg_s,
+    // $msg_w,
+    // $msg_e
 }

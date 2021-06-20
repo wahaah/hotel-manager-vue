@@ -5,9 +5,15 @@ Vue.use(VueRouter)
 
 // 路由信息数组
 const routes = [
-  // 登录页
+  // 首页
   { 
     path:'/',
+    // 注意：这里写成components就什么都不显示
+    component:()=>import('@v/Home.vue')
+  },
+  // 登录页
+  { 
+    path:'/login',
     // 注意：这里写成components就什么都不显示
     component:()=>import('@v/Login.vue')
   },
@@ -16,7 +22,7 @@ const routes = [
     component:()=>import('@v/Register.vue')
   },
   { 
-    path:'/Layout',
+    path:'/layout',
     component:()=>import('@v/Layout.vue')
   }
   
